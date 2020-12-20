@@ -193,12 +193,6 @@ function closeCompletionPopup() {
     drawingCanvas.canvasActive = true;
 }
 
-function closeMobileDevicePopup() {
-    document.getElementById('mobile-device-popup').classList.add('popup-hidden');
-    mainCanvas.classList.add('canvas-active');
-    drawingCanvas.canvasActive = true;
-}
-
 function nextLevel() {
     var currentLevelNum = judgedLevels.indexOf(drawingCanvas.level);
     var nextLevelNum = (currentLevelNum + 1) % judgedLevels.length;
@@ -396,14 +390,6 @@ function onload() {
     mainCanvas.addEventListener('mousemove', function(e) { drawingCanvas.moveMouse(e.clientX - canvasRect.left, e.clientY - canvasRect.top) }.bind(this));
     mainCanvas.addEventListener('mouseup', function(e) { drawingCanvas.endStroke(e.clientX - canvasRect.left, e.clientY - canvasRect.top) }.bind(this));
     mainCanvas.addEventListener('mouseleave', function(e) { drawingCanvas.endStroke(e.clientX - canvasRect.left, e.clientY - canvasRect.top) }.bind(this));
-    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-        // They're using a mobile device
-        mobileDevicePopup = document.getElementById('mobile-device-popup');
-        mobileDevicePopup.classList.remove('popup-hidden');
-        mobileDevicePopup.innerHTML = '<div id="mobile-device-message">This game requires the use of a mouse or trackpad. If you continue on a touch screen device, it may not work properly.</div><div class="popup-button" id="popup-mobile-device-button" onclick="closeMobileDevicePopup()">Continue Anyway</div>';
-        mainCanvas.classList.remove('canvas-active');
-        drawingCanvas.canvasActive = false;
-    }
 }
 
 window.addEventListener('scroll', function(e) { canvasRect = mainCanvas.getBoundingClientRect(); });
