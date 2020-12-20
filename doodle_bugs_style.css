@@ -1,0 +1,587 @@
+:root {
+  --bg-color: #005A9A;
+  --button-color: #002060;
+  --cancel-color: #BA0F23;
+  --text-color: #FFFFFF;
+  --credits-color: #299EF1;
+  --credits-link-color: #72C5FF;
+  --pink: #FF8AE8;
+  --red: #D60000;
+  --orange: #F79000;
+  --yellow: #FBE615;
+  --green: #0F883C;
+  --teal: #00E0E0;
+  --blue: #001AC4;
+  --purple: #7030A0;
+  --brown: #664023;
+  --black: #000000;
+  --big-roundedness: 15px;
+  --small-roundedness: 10px;
+}   
+
+body {
+  background-color: var(--bg-color);
+  height: 100%;
+  margin: 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: var(--text-color);
+  font-family: 'Coming Soon', sans-serif;
+  font-size: 22px;
+}
+
+#all-the-content {
+  max-width: 1420px;
+  min-width: 1150px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#welcome-area {
+  margin-top: 30px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  justify-content: space-around;
+  align-items: stretch;
+}
+
+#left-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#main-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#right-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.bug-gif {
+  width: 180px;
+  margin: 2px;
+  border-radius: var(--big-roundedness);
+}
+
+#big-logo {
+  margin-top: 10px;
+  width: 450px;
+}
+
+#logo-tagline {
+  margin-bottom: 20px;
+  font-size: 24px;
+  width: 400px;
+  text-align: center;
+}
+
+#start-game-button{
+  background-image: url('start-button.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin: 5px 5px 35px 5px;
+  width: 220px;
+  height: 156px;
+  cursor: pointer;
+}
+
+#start-game-button:hover {
+  background-image: url('start-button.gif');
+}
+
+#game-area {
+  margin-top: 30px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  justify-content: space-around;
+  align-items: stretch;
+}
+
+#level-selection-area {
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#drawing-area {
+  display: flex;
+  flex-direction: column;
+}
+
+#canvas-area {
+  margin-bottom: 20px;
+}
+
+#tools-area {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#level-info-area {
+  min-width: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#level-background {
+  width: 640px;
+  height: 480px;
+  background-size: 100% 100%;
+  display: block;
+  z-index: 3;
+  position: absolute;
+  border-radius: var(--big-roundedness);
+}
+
+#mainCanvas {
+  display: block;
+  z-index: 5;
+  position: relative;
+  border-radius: var(--big-roundedness);
+}
+
+#mainCanvas.canvas-active {
+  cursor: crosshair;
+}
+
+#level-completion-popup {
+  width: 450px;
+  height: 200px;
+  z-index: 7;
+  background-color: var(--button-color);
+  border-radius: var(--big-roundedness);
+  position: absolute;
+  margin: 140px 95px 140px 95px;
+}
+
+#level-completion-popup.popup-hidden {
+  visibility: hidden;
+}
+
+#level-completion-popup.final-popup {
+  height: 300px;
+  margin: 90px 95px 90px 95px;
+}
+
+#mobile-device-popup {
+  width: 800px;
+  height: 650px;
+  z-index: 7;
+  background-color: var(--button-color);
+  border-radius: var(--big-roundedness);
+  position: absolute;
+  margin-top: 20px;
+  margin-left: 200px;
+}
+
+#mobile-device-popup.popup-hidden {
+  visibility: hidden;
+}
+
+#well-done {
+  font-size: 50px;
+  width: 100%;
+  text-align: center;
+  margin-top: 25px;
+  z-index: 5;
+}
+
+#well-done-final {
+  font-size: 42px;
+  width: 100%;
+  text-align: center;
+  margin-top: 15px;
+  z-index: 5;
+}
+
+#final-message {
+  font-size: 28px;
+  width: 400px;
+  text-align: center;
+  margin-left: 25px;
+  z-index: 5;
+}
+
+#mobile-device-message {
+  margin-top: 50px;
+  font-size: 54px;
+  width: 650px;
+  text-align: center;
+  margin-left: 75px;
+  z-index: 5;
+}
+
+.popup-button {
+  border-radius: var(--small-roundedness);
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  border: 5px solid var(--button-color);
+  position: absolute;
+  margin: 15px;
+}
+
+.popup-button:hover {
+  border: 5px solid transparent;
+}
+
+#popup-close-button {
+  background-color: var(--bg-color);
+  left: 0px;
+  top: 0px;
+  font-size: 28px;
+  width: 40px;
+  height: 40px;
+  line-height: 45px;
+}
+
+#popup-next-button {
+  background-image: url('next-level-button.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  width: 242px;
+  height: 90px;
+  z-index: 3;
+  margin-left: 104px;
+  bottom: 4px;
+}
+
+#popup-next-button:hover {
+  background-image: url('next-level-button.gif');
+}
+
+#popup-sandbox-button {
+  background-image: url('sandbox-button.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  margin-left: 72px;
+  bottom: 4px;
+  width: 308px;
+  height: 90px;
+  z-index: 3;
+}
+
+#popup-sandbox-button:hover {
+  background-image: url('sandbox-button.gif');
+}
+
+#popup-mobile-device-button {
+  background-color: var(--bg-color);
+  margin-left: 125px;
+  bottom: 20px;
+  width: 550px;
+  font-size: 50px;
+  height: 120px;
+  line-height: 130px;
+}
+
+#small-logo {
+  width: 230px;
+  margin-bottom: 15px;
+}
+
+.tool-tray {
+  background-color: var(--text-color);
+  border-radius: var(--big-roundedness);
+  border: 5px solid var(--text-color);
+  width: 400px;
+  height: 110px;
+}
+
+.clear-bar {
+  clear: both;
+  height: 0px;
+  margin: 0px;
+}
+
+#current-color-window {
+  border: 5px solid white;
+  width: 100px;
+  height: 100px;
+  background-color: #CCCCCC;
+  border-radius: var(--big-roundedness);
+  float: right;
+}
+
+#current-color-window > img {
+  width: 80px;
+  height: 80px;
+  margin: 10px;
+}
+
+.tool-button-table{
+  display: table;
+  width: 270px;
+  margin: 0px;
+  float: left;
+}
+
+.tool-button-row{
+  display: table-row;
+}
+
+.tool-button-cell{
+  display: table-cell;
+}
+
+.tool-button {
+  height: 45px;
+  width: 45px;
+  border: 5px solid white;
+  cursor: pointer;
+  border-radius: var(--small-roundedness);
+}
+
+.tool-button:hover {
+  border: 5px solid transparent;
+}
+
+.selected-tool-button {
+  border: 5px solid transparent;
+}
+
+#yellow-button {
+  background-color: var(--yellow);
+}
+
+#red-button {
+  background-color: var(--red);
+}
+
+#pink-button {
+  background-color: var(--pink);
+}
+
+#green-button {
+  background-color: var(--green);
+}
+
+#brown-button {
+  background-color: var(--brown);
+}
+
+#black-button {
+  background-color: var(--black);
+}
+
+#blue-button {
+  background-color: var(--blue);
+}
+
+#teal-button {
+  background-color: var(--teal);
+}
+
+#orange-button {
+  background-color: var(--orange);
+}
+
+#purple-button {
+  background-color: var(--purple);
+}
+
+#undo-button {
+  background-image: url('undo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  height: 105px;
+  width: 105px;
+  margin-left: 13px;
+}
+
+#undo-button:hover {
+  background-image: url('undo_hover.png');
+}
+
+#clear-button {
+  background-image: url('clear.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  height: 105px;
+  width: 105px;
+  margin-right: 2px;
+}
+
+#clear-button:hover {
+  background-image: url('clear_hover.png');
+}
+
+.header-text {
+  color: var(--text-color);
+  font-size: 42px;
+  display: inline-block;
+}
+
+#level-box-area {
+  text-align: center;
+}
+
+#levels-box {
+  width: 200px;
+  height: 280px;
+  overflow-x: hidden; 
+  overflow-y: auto;
+  border-radius: var(--big-roundedness);
+  background-color: #FFFFFF;
+  padding: 5px;
+  text-align: left;
+}
+
+#levels-box > hr {
+  border: 1px solid #000000;
+}
+
+.level-button {
+  width: 100%;
+  height: 50px;
+  line-height: 54px;
+  cursor: pointer;
+  vertical-align: middle;
+  color: #000000;
+  font-size: 28px;
+  clear: both;
+}
+
+.level-button:hover {
+  background-color: #E2E2E2;
+}
+
+.selected-level {
+  background-color: #F0F0F0;
+}
+
+.selection-arrow {
+  line-height: 48px;
+  margin: 4px 6px 0px -30px;
+  float: right;
+  visibility: hidden;
+}
+
+.selected-level > .selection-arrow{
+  visibility: visible;
+}
+
+.completed-level {
+  color: #006E00;
+  background-color: #EBFFEB;
+}
+
+.completed-level:hover {
+  background-color: #BBFFBB;
+}
+
+#skip-button {
+  background-color: var(--button-color);
+  width: 180px;
+  line-height: 65px;
+  height: 60px;
+  z-index: 3;
+  text-align: center;
+  font-size: 32px;
+  color: var(--text-color);
+  cursor: pointer;
+  border: 5px solid var(--bg-color);
+  border-radius: var(--big-roundedness);
+}
+
+#skip-button:hover {
+  border: 5px solid transparent;
+  border-radius: var(--big-roundedness);
+}
+
+#reference-image {
+  width: 190px;
+  padding-top: 143px;
+  border-radius: var(--big-roundedness);
+  background-size: 100% 100%;
+}
+
+#submit-button{
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 200px;
+  height: 146px;
+  z-index: 3;
+  margin: 0px 0px 12px 0px;
+}
+
+.active-submit-button {
+  background-image: url('submit-button.png');
+  cursor: pointer;
+}
+
+.active-submit-button:hover {
+  background-image: url('submit-button.gif');
+}
+
+.inactive-submit-button {
+  background-image: url('submit-button-inactive.png');
+}
+
+#instruction-text {
+  text-align: center;
+  width: 200px;
+}
+
+#stroke-counting-area {
+  text-align: center;
+}
+
+#stroke-counter {
+  margin: auto;
+  font-size: 110px;
+  line-height: 50px;
+  display: inline-block;
+}
+
+.stroke-counter-excessive {
+  color: #FF002B;
+}
+
+#stroke-label {
+  font-size: 46px;
+  line-height: 42px;
+}
+
+#credits {
+  width: 660px;
+  margin: auto;
+  margin-top: 36px;
+  font-size: 12px;
+  text-align: center;
+  color: var(--credits-color);
+}
+
+#credits > a {
+  color: var(--credits-link-color);
+  text-decoration: underline;
+}

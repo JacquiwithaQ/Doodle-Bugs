@@ -1,0 +1,95 @@
+<div id="game-area">
+    <div id="level-selection-area">
+        <div id="level-box-area">
+        <div class="header-text">
+            Levels
+        </div>
+            <div id="levels-box">
+                <div class="level-button" id="ladybug-level-button">&nbsp;Ladybug<div class="selection-arrow">&#9664;</div></div>
+                <div class="level-button" id="hive-level-button">&nbsp;Honeycomb<div class="selection-arrow">&#9664;</div></div>
+                <div class="level-button" id="flower-level-button">&nbsp;Flower<div class="selection-arrow">&#9664;</div></div>
+                <div class="level-button" id="hummingbird-level-button">&nbsp;Nectar<div class="selection-arrow">&#9664;</div></div>
+                <div class="level-button" id="dragonfly-level-button">&nbsp;Dragonfly<div class="selection-arrow">&#9664;</div></div>
+                <div class="level-button" id="butterfly-level-button">&nbsp;Butterfly<div class="selection-arrow">&#9664;</div></div>
+                <div class="level-button" id="sky-level-button">&nbsp;Sky<div class="selection-arrow">&#9664;</div></div>
+                <div class="level-button" id="worm-level-button">&nbsp;Worm<div class="selection-arrow">&#9664;</div></div>
+                <div class="level-button" id="spider-level-button">&nbsp;Spider<div class="selection-arrow">&#9664;</div></div>
+                <div class="level-button" id="fish-level-button">&nbsp;Fish<div class="selection-arrow">&#9664;</div></div>
+                <div class="level-button" id="umbrella-level-button">&nbsp;Umbrella<div class="selection-arrow">&#9664;</div></div>
+                <div class="level-button" id="boat-level-button">&nbsp;Boat<div class="selection-arrow">&#9664;</div></div>
+                <div class="level-button" id="space-level-button">&nbsp;Space<div class="selection-arrow">&#9664;</div></div>
+                <hr>
+                <div class="level-button" id="sandbox-button">&nbsp;Sandbox<div class="selection-arrow">&#9664;</div></div>
+            </div>
+        </div>
+        <a href="http://www.doodlebugs.art"><img id="small-logo" src="logo.png"/></a>
+    </div>
+    <div id="drawing-area">
+        <div id="level-completion-popup" class="popup-hidden">
+        </div>
+        <div id="canvas-area">
+            <div id="level-background"></div>
+            <svg width="640" height="480" id="mainCanvas">
+            </svg>
+        </div>
+        <div id="tools-area">
+            <div class="tool-tray">
+               <div class="tool-button-table">
+                <div class="tool-button-row">
+                <div class="tool-button-cell">
+                    <div class="tool-button" id="pink-button"></div>
+                </div>
+                <div class="tool-button-cell">
+                    <div class="tool-button" id="red-button"></div>
+                </div>
+                <div class="tool-button-cell">
+                    <div class="tool-button" id="orange-button"></div>
+                </div>
+                <div class="tool-button-cell">
+                    <div class="tool-button" id="yellow-button"></div>
+                </div>
+                <div class="tool-button-cell">
+                    <div class="tool-button" id="brown-button"></div>
+                </div>
+                </div>
+                <div class="tool-button-row">
+                <div class="tool-button-cell">
+                    <div class="tool-button" id="teal-button"></div>
+                </div>
+                <div class="tool-button-cell">
+                    <div class="tool-button" id="green-button"></div>
+                </div>
+                <div class="tool-button-cell">
+                    <div class="tool-button" id="blue-button"></div>
+                </div>
+                <div class="tool-button-cell">
+                    <div class="tool-button" id="purple-button"></div>
+                </div>
+                <div class="tool-button-cell">
+                    <div class="tool-button" id="black-button"></div>
+                </div>
+                </div>
+                </div>
+                <div id="current-color-window"><img src="brush.png"/></div>
+            </div>
+            <div id="undo-button" onclick="undoManager.undo();"></div>
+            <div id="clear-button" onclick="clearCanvas();"></div>
+        </div>
+    </div>
+    <div id="level-info-area">
+        <div>
+            <div class="header-text" id="instruction-text">
+            </div>
+            <div id="reference-image"></div>
+        </div>
+        <div id="stroke-counting-area">
+            <div id="stroke-counter"></div>
+            <div id="stroke-label"></div>
+        </div>
+        <div id="submit-region">
+            <div id="submit-button" onclick="submitDrawing();"></div>
+        </div>
+    </div>
+</div>
+<div id="credits">This game was created by <a href="http://jacquifashimpaur.com">Jacqui Fashimpaur</a> in 2020. It first appeared in <a href="https://puzzlehunt.club.cc.cmu.edu/hunt/13/">Puzzle Hunt CMU's S20 hunt</a>.<br>Some code and level designs were contributed by <a href="http://tomwildenhain.com">Tom Wildenhain</a>. The mechanic was inspired by <a href="https://benfry.com/fugpaint/">Ben Fry's fugpaint</a>.</div>
+<script src="gameplay.js" defer="defer"></script>

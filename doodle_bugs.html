@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Doodle Bugs BETA</title>
+        <meta name="keywords" content="Puzzle, Game, Drawing, Art, Web, Free, Stroke">
+        <meta name="description" content="It/'s the drawing game with a few bugs... Try to complete drawing challenges using a misbehaving painting tool.">
+        <meta name="author" content="Jacqui Fashimpaur">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="Doodle Bugs"/>
+        <meta property="og:type" content="game"/>
+        <meta property="og:url" content="http://www.doodlebugs.art"/>
+        <meta property="og:image" content="preview-image.png"/>
+        <meta property="og:description" content="The drawing game with a few bugs."/>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+        <link rel="icon" type="image/png" href="favicon.png"/>
+        <link rel="stylesheet" type="text/css" href="doodle_bugs_style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Coming+Soon&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div id="all-the-content">
+            <div id="mobile-device-popup" class="popup-hidden"></div>
+            <div id="welcome-area">
+                <div id="left-column">
+                    <img class="bug-gif" src="color_gifs/teal-bug.gif"><br>
+                    <img class="bug-gif" src="color_gifs/red-bug.gif"><br>
+                    <img class="bug-gif" src="color_gifs/purple-bug.gif"><br>
+                    <img class="bug-gif" src="color_gifs/brown-bug.gif"><br>
+                </div>
+                <div id="main-column">
+                    <img id="big-logo" src="logo.png"/><br>
+                    <div id="start-game-button" onclick="$('#all-the-content').load('game.html')"></div>
+                    <div id="logo-tagline">The drawing game with a few bugs.</div>
+                </div>
+                <div id="right-column">
+                    <img class="bug-gif" src="color_gifs/pink-bug.gif"><br>
+                    <img class="bug-gif" src="color_gifs/green-bug.gif"><br>
+                    <img class="bug-gif" src="color_gifs/black-bug.gif"><br>
+                    <img class="bug-gif" src="color_gifs/yellow-bug.gif"><br>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
