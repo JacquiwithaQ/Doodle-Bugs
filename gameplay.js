@@ -14,7 +14,7 @@ var yellowColor = "FBE615";
 var greenColor = "0F883C";
 var tealColor = "00E0E0";
 var blueColor = "001AC4";
-var purpleColor = "7030A0";
+var purpleColor = "8529B3";
 var brownColor = "664023";
 var blackColor = "000000";
 
@@ -95,8 +95,8 @@ function validateSvgData(svgimgdata, goalImgdata, callbackFn) {
         }
         return rgbToHex(img.data[i], img.data[i+1], img.data[i+2]);
     }
-    function get9Pixels(img, x, y) {
-        var drs = [-5, 0, 5];
+    function getPixelSquare(img, x, y, size) {
+        var drs = [(-1 * size), 0, size];
         var pixels = [];
         drs.forEach(function(dx) {
             drs.forEach(function(dy) {
@@ -113,14 +113,14 @@ function validateSvgData(svgimgdata, goalImgdata, callbackFn) {
         if (colors.includes(goalcolor) && goalcolor != svgcolor) {
             if (goalcolor == "FFFFFF") {
                 if (colors.includes(svgcolor)) {
-                    return !get9Pixels(svgimgdata, x, y).includes(goalcolor);
+                    return !getPixelSquare(svgimgdata, x, y, 4).includes(goalcolor);
                 }
                 else {
                     return false;
                 }
             }
             else {
-                return !get9Pixels(svgimgdata, x, y).includes(goalcolor);
+                return !getPixelSquare(svgimgdata, x, y, 6).includes(goalcolor);
             }
         }
         return false;
