@@ -79,7 +79,7 @@ body {
 
 #big-logo {
   margin-top: 10px;
-  width: 450px;
+  width: 440px;
 }
 
 #logo-tagline {
@@ -93,7 +93,7 @@ body {
   background-image: url('start-button.png');
   background-size: contain;
   background-repeat: no-repeat;
-  margin: 5px 5px 30px 5px;
+  margin: 20px 5px 30px 5px;
   width: 220px;
   height: 156px;
   cursor: pointer;

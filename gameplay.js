@@ -276,7 +276,7 @@ function submitDrawing() {
     drawUnliftableIfDown(point.x, point.y);
     validateSvg(drawingCanvas.level.goalImg, function (errors) {
         if (errors.length == 0){
-            CookieManager.setCookie(drawingCanvas.level, "complete");
+            CookieManager.setCookie(drawingCanvas.level.name, "complete");
             drawingCanvas.level.button.classList.add("completed-level");
             allDone = checkCompletion();
             // We don't currently do anything if all levels have been completed
@@ -304,7 +304,7 @@ function submitDrawing() {
 function checkCompletion() {
     var allDone = true;
     for(i = 0; i < judgedLevels.length; i++) {
-        if (CookieManager.getCookie(judgedLevels[i]) != "complete") {
+        if (CookieManager.getCookie(judgedLevels[i].name) != "complete") {
             allDone = false;
         }
     }
@@ -378,8 +378,9 @@ function onload() {
     fish = new Level("fish", document.getElementById("fish-level-button"), 5, "fish");
     umbrella = new Level("umbrella", document.getElementById("umbrella-level-button"), 3, "umbrella");
     boat = new Level("boat", document.getElementById("boat-level-button"), 3, "boat");
+    house = new Level("house", document.getElementById("house-level-button"), 6, "house");
     space = new Level("space", document.getElementById("space-level-button"), 7, "space");
-    judgedLevels = [ladybug, hive, flower, hummingbird, dragonfly, butterfly, worm, spider, sky, umbrella, fish, boat, space];
+    judgedLevels = [ladybug, hive, flower, hummingbird, dragonfly, butterfly, worm, spider, sky, fish, umbrella, house, boat, space];
     submitButton = document.getElementById("submit-button");
     mainToolbar = new Toolbar([pinkTool, redTool, orangeTool, yellowTool, greenTool, tealTool, blueTool, purpleTool, brownTool, blackTool]);
     drawingCanvas = new DrawingCanvas();
@@ -1318,7 +1319,7 @@ Level.prototype.selectLevel = function() {
     reference = document.getElementById("reference-image");
     reference.style.backgroundImage = this.referenceImg;
     instruction = document.getElementById("instruction-text");
-    if (this.referenceImg != ""){
+    if (this.name != "sandbox"){
         instruction.innerHTML = "Draw this:";
         reference.style.display = "block";
         reference.style.backgroundImage = this.referenceImg;
