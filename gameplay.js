@@ -365,21 +365,21 @@ function onload() {
     purpleTool = new Tool(purpleColor, GravityBrush, document.getElementById("purple-button"));
     brownTool = new Tool(brownColor, UnliftableBrush, document.getElementById("brown-button"));
     blackTool = new Tool(blackColor, YMirrorBrush, document.getElementById("black-button"));
-    sandbox = new Level("url(levels/sandbox.png)", "", "", document.getElementById("sandbox-button"), -1, "sandbox");
-    ladybug = new Level("url(levels/ladybug-guide.png)", "levels/ladybug-goal.png", "url(levels/ladybug-reference.png)", document.getElementById("ladybug-level-button"), 7, "ladybug");
-    hive = new Level("url(levels/hive-guide.png)", "levels/hive-goal.png", "url(levels/hive-reference.png)", document.getElementById("hive-level-button"), 2, "hive");
-    flower = new Level("url(levels/flower-guide.png)", "levels/flower-goal.png", "url(levels/flower-reference.png)", document.getElementById("flower-level-button"), 3, "flower");
-    dragonfly = new Level("url(levels/dragonfly-guide.png)", "levels/dragonfly-goal.png", "url(levels/dragonfly-reference.png)", document.getElementById("dragonfly-level-button"), 3, "dragonfly");
-    hummingbird = new Level("url(levels/hummingbird-guide.png)", "levels/hummingbird-goal.png", "url(levels/hummingbird-reference.png)", document.getElementById("hummingbird-level-button"), 3, "hummingbird");
-    butterfly = new Level("url(levels/butterfly-guide.png)", "levels/butterfly-goal.png", "url(levels/butterfly-reference.png)", document.getElementById("butterfly-level-button"), 2, "butterfly");
-    worm = new Level("url(levels/worm-guide.png)", "levels/worm-goal.png", "url(levels/worm-reference.png)", document.getElementById("worm-level-button"), 3, "worm");
-    sky = new Level("url(levels/sky-guide.png)", "levels/sky-goal.png", "url(levels/sky-reference.png)", document.getElementById("sky-level-button"), 4, "sky");
-    spider = new Level("url(levels/spider-guide.png)", "levels/spider-goal.png", "url(levels/spider-reference.png)", document.getElementById("spider-level-button"), 2, "spider");
-    fish = new Level("url(levels/fish-guide.png)", "levels/fish-goal.png", "url(levels/fish-reference.png)", document.getElementById("fish-level-button"), 5, "fish");
-    umbrella = new Level("url(levels/umbrella-guide.png)", "levels/umbrella-goal.png", "url(levels/umbrella-reference.png)", document.getElementById("umbrella-level-button"), 3, "umbrella");
-    boat = new Level("url(levels/boat-guide.png)", "levels/boat-goal.png", "url(levels/boat-reference.png)", document.getElementById("boat-level-button"), 3, "boat");
-    space = new Level("url(levels/space-guide.png)", "levels/space-goal.png", "url(levels/space-reference.png)", document.getElementById("space-level-button"), 7, "space");
-    judgedLevels = [ladybug, hive, flower, hummingbird, dragonfly, butterfly, sky, worm, spider, fish, umbrella, boat, space];
+    sandbox = new Level("sandbox", document.getElementById("sandbox-button"), -1, "sandbox");
+    ladybug = new Level("ladybug", document.getElementById("ladybug-level-button"), 7, "ladybug");
+    hive = new Level("hive", document.getElementById("hive-level-button"), 2, "hive");
+    flower = new Level("flower", document.getElementById("flower-level-button"), 3, "flower");
+    dragonfly = new Level("dragonfly", document.getElementById("dragonfly-level-button"), 3, "dragonfly");
+    hummingbird = new Level("hummingbird", document.getElementById("hummingbird-level-button"), 3, "hummingbird");
+    butterfly = new Level("butterfly", document.getElementById("butterfly-level-button"), 2, "butterfly");
+    worm = new Level("worm", document.getElementById("worm-level-button"), 3, "worm");
+    sky = new Level("sky", document.getElementById("sky-level-button"), 4, "sky");
+    spider = new Level("spider", document.getElementById("spider-level-button"), 2, "spider");
+    fish = new Level("fish", document.getElementById("fish-level-button"), 5, "fish");
+    umbrella = new Level("umbrella", document.getElementById("umbrella-level-button"), 3, "umbrella");
+    boat = new Level("boat", document.getElementById("boat-level-button"), 3, "boat");
+    space = new Level("space", document.getElementById("space-level-button"), 7, "space");
+    judgedLevels = [ladybug, hive, flower, hummingbird, dragonfly, butterfly, worm, spider, sky, umbrella, fish, boat, space];
     submitButton = document.getElementById("submit-button");
     mainToolbar = new Toolbar([pinkTool, redTool, orangeTool, yellowTool, greenTool, tealTool, blueTool, purpleTool, brownTool, blackTool]);
     drawingCanvas = new DrawingCanvas();
@@ -1297,15 +1297,15 @@ PushableBrush.onNonStrokeMove = function(mouseX, mouseY, currentStroke) {}
 
 //END BRUSH DEFINTIONS
 
-function Level(image, goalImg, referenceImg, button, maxStrokes, name) {
-    this.image = image;
-    this.referenceImg = referenceImg;
-    this.goalImg = goalImg;
+function Level(imageLabel, button, maxStrokes, name) {
+    this.image = "url(levels/" + imageLabel + "-guide.png)";
+    this.referenceImg = "url(levels/" + imageLabel + "-reference.png)";
+    this.goalImg = "levels/" + imageLabel + "-goal.png";
     this.button = button;
     this.button.onclick = this.selectLevel.bind(this);
     this.maxStrokes = maxStrokes;
     this.name = name;
-    if (goalImg != "" && CookieManager.getCookie(this.name) == "complete") {
+    if (name != "sandbox" && CookieManager.getCookie(this.name) == "complete") {
         this.button.classList.add("completed-level");
     }
 }
