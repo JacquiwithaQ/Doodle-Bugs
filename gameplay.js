@@ -221,7 +221,6 @@ function clearCanvas() {
 }
 
 function clearFeedbackMarks() {
-    strokeCounter.classList.remove('stroke-counter-excessive');
     while (drawingCanvas.feedbackMarks.length > 0){
         mark = drawingCanvas.feedbackMarks.pop();
         mark.remove();
@@ -245,15 +244,15 @@ function updateCounter(){
     } else {
         strokeCounter.innerHTML = "" + drawingCanvas.strokes.length + "/" + drawingCanvas.level.maxStrokes;
     }
-    if (drawingCanvas.level.maxStrokes < 0) {
+    if (drawingCanvas.level.maxStrokes < 0) { // There is no stroke counter, so it's not scored (ie. sandbox) 
         submitButton.classList.remove('active-submit-button');
         submitButton.classList.add('inactive-submit-button');
         strokeCounter.classList.remove('stroke-counter-excessive');
-    } else if (drawingCanvas.strokes.length <= drawingCanvas.level.maxStrokes){
+    } else if (drawingCanvas.strokes.length <= drawingCanvas.level.maxStrokes){ // Within stroke limit
         submitButton.classList.remove('inactive-submit-button');
         submitButton.classList.add('active-submit-button');
         strokeCounter.classList.remove('stroke-counter-excessive');
-    } else {
+    } else { // Exceeded the stroke limit
         submitButton.classList.remove('active-submit-button');
         submitButton.classList.add('inactive-submit-button');
         strokeCounter.classList.add('stroke-counter-excessive');
@@ -274,6 +273,7 @@ function submitDrawing() {
     if (drawingCanvas.level.maxStrokes == -1) return;
     point = buttonToCanvasPoint(submitButton);
     drawUnliftableIfDown(point.x, point.y);
+    moveStickyIfStuck(point.x, point.y);
     validateSvg(drawingCanvas.level.goalImg, function (errors) {
         if (errors.length == 0){
             CookieManager.setCookie(drawingCanvas.level.name, "complete");
@@ -342,6 +342,7 @@ UndoManager.prototype.undo = function() {
     //drawingCanvas.currentTool = s.currentTool;
     point = buttonToCanvasPoint(document.getElementById('undo-button'));
     drawUnliftableIfDown(point.x, point.y);
+    moveStickyIfStuck(point.x, point.y);
     updateCounter();
 }
 UndoManager.prototype.clear = function() {
@@ -919,6 +920,13 @@ function applyGravity(currentStroke) {
     currentStroke.velocity = Math.min(currentStroke.velocity + 0.6, 80);
 }
 
+function pointTouchingEdge(x, y) {
+    var w = canvasRect.width;
+    var h = canvasRect.height;
+    var r = strokeWeight / 2;
+    var res = (x <= r || x >= w - r || y <= r || y >= h - r);
+    return res;
+}
 
 function StickyBrush() {}
 //what the brush does when the user first begins drawing
@@ -935,6 +943,7 @@ StickyBrush.onStart = function(mouseX, mouseY, currentStroke) {
 StickyBrush.onDraw = function(mouseX, mouseY, currentStroke) {
     currentStroke.points.push("" + mouseX + " " + mouseY);
     currentStroke.path.setAttributeNS(null, "d", "M " + currentStroke.points.join(" L "));
+    currentStroke.touchingEdge = pointTouchingEdge(mouseX, mouseY);
 }
 //for brushes that do something when the user lifts them up
 StickyBrush.onEnd = function(mouseX, mouseY, currentStroke) {
@@ -958,8 +967,9 @@ StickyBrush.onNonStrokeMove = function(mouseX, mouseY, currentStroke) {
             y = parseFloat(pointParts[1]);
             newPoints.push("" + (mouseX + x - currentStroke.endX) + " " + (mouseY + y - currentStroke.endY));
         }
-    currentStroke.path.setAttributeNS(null, "d", "M " + newPoints.join(" L "));
+        currentStroke.path.setAttributeNS(null, "d", "M " + newPoints.join(" L "));
     }
+    currentStroke.touchingEdge = pointTouchingEdge(mouseX, mouseY);
 }
 
 
@@ -996,14 +1006,6 @@ function buttonToCanvasPoint(button) {
         x: buttonX,
         y: buttonY
     }
-}
-
-function pointTouchingEdge(x, y) {
-    var w = canvasRect.width;
-    var h = canvasRect.height;
-    var r = strokeWeight / 2;
-    var res = (x <= r || x >= w - r || y <= r || y >= h - r);
-    return res;
 }
 
 function UnliftableBrush() {}
@@ -1046,6 +1048,26 @@ function drawUnliftableIfDown(x, y){
         lastPath = drawingCanvas.strokes[drawingCanvas.strokes.length - 1].path.getAttributeNS(null, "d");
         newPath = lastPath + " L " + x + " " + y;
         drawingCanvas.strokes[drawingCanvas.strokes.length - 1].path.setAttributeNS(null, "d", newPath);
+    }
+}
+
+function moveStickyIfStuck(x, y){
+    if (drawingCanvas.canvasActive && drawingCanvas.strokes.length > 0 && 
+            drawingCanvas.strokes[drawingCanvas.strokes.length - 1].brush == StickyBrush &&
+            drawingCanvas.strokes[drawingCanvas.strokes.length - 1].sticking &&
+            !drawingCanvas.strokes[drawingCanvas.strokes.length - 1].touchingEdge){
+        newPoints = [];
+        oldPoints = drawingCanvas.strokes[drawingCanvas.strokes.length - 1].points;
+        endX = drawingCanvas.strokes[drawingCanvas.strokes.length - 1].endX;
+        endY = drawingCanvas.strokes[drawingCanvas.strokes.length - 1].endY;
+        for (i = 0; i < oldPoints.length; i++){
+            point = oldPoints[i];
+            pointParts = point.split(" ");
+            oldX = parseFloat(pointParts[0]);
+            oldY = parseFloat(pointParts[1]);
+            newPoints.push("" + (x + oldX - endX) + " " + (y + oldY - endY));
+        }
+        drawingCanvas.strokes[drawingCanvas.strokes.length - 1].path.setAttributeNS(null, "d", "M " + newPoints.join(" L "));
     }
 }
 
@@ -1394,6 +1416,7 @@ function Tool(color, brush, button) {
 Tool.prototype.selectTool = function() {
     point = buttonToCanvasPoint(this.button);
     drawUnliftableIfDown(point.x, point.y);
+    // We don't do sticky here because it's jarring and you can't use it to cheat
     drawingCanvas.currentTool = this;
     currentColorWindow.style.backgroundColor = this.color;
     clearFeedbackMarks();
@@ -1474,3 +1497,4 @@ DrawingCanvas.prototype.endStroke = function(mouseX, mouseY){
 }
 
 onload();
+//# sourceURL=gameplay.js
