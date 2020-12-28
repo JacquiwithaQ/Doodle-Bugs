@@ -29,6 +29,7 @@
         <div id="level-completion-popup" class="popup-hidden">
         </div>
         <div id="canvas-area">
+            <div id="level-color-labels"></div>
             <div id="level-background"></div>
             <svg width="640" height="480" id="mainCanvas">
             </svg>
@@ -38,40 +39,40 @@
                <div class="tool-button-table">
                 <div class="tool-button-row">
                 <div class="tool-button-cell">
-                    <div class="tool-button" id="pink-button"></div>
+                    <div class="tool-button" id="pink-button"><div class="tool-label">A</div></div>
                 </div>
                 <div class="tool-button-cell">
-                    <div class="tool-button" id="red-button"></div>
+                    <div class="tool-button" id="red-button"><div class="tool-label">B</div></div>
                 </div>
                 <div class="tool-button-cell">
-                    <div class="tool-button" id="orange-button"></div>
+                    <div class="tool-button" id="orange-button"><div class="tool-label">C</div></div>
                 </div>
                 <div class="tool-button-cell">
-                    <div class="tool-button" id="yellow-button"></div>
+                    <div class="tool-button" id="yellow-button"><div class="tool-label">D</div></div>
                 </div>
                 <div class="tool-button-cell">
-                    <div class="tool-button" id="brown-button"></div>
+                    <div class="tool-button" id="brown-button"><div class="tool-label">E</div></div>
                 </div>
                 </div>
                 <div class="tool-button-row">
                 <div class="tool-button-cell">
-                    <div class="tool-button" id="teal-button"></div>
+                    <div class="tool-button" id="teal-button"><div class="tool-label">F</div></div>
                 </div>
                 <div class="tool-button-cell">
-                    <div class="tool-button" id="green-button"></div>
+                    <div class="tool-button" id="green-button"><div class="tool-label">G</div></div>
                 </div>
                 <div class="tool-button-cell">
-                    <div class="tool-button" id="blue-button"></div>
+                    <div class="tool-button" id="blue-button"><div class="tool-label">H</div></div>
                 </div>
                 <div class="tool-button-cell">
-                    <div class="tool-button" id="purple-button"></div>
+                    <div class="tool-button" id="purple-button"><div class="tool-label">I</div></div>
                 </div>
                 <div class="tool-button-cell">
-                    <div class="tool-button" id="black-button"></div>
+                    <div class="tool-button" id="black-button"><div class="tool-label">J</div></div>
                 </div>
                 </div>
                 </div>
-                <div id="current-color-window"><img src="brush.png"/></div>
+                <div id="current-color-window"><div id="tool-label-selection" class="tool-label">J</div><img src="brush.png"/></div>
             </div>
             <div id="undo-button" onclick="undoManager.undo();"></div>
             <div id="clear-button" onclick="clearCanvas();"></div>
@@ -92,5 +93,6 @@
         </div>
     </div>
 </div>
-<div id="credits">This game was created by Jacqui Fashimpaur in 2020. It first appeared in <a href="https://puzzlehunt.club.cc.cmu.edu/hunt/13/">Puzzle Hunt CMU's S20 hunt</a>.<br>Some code and level designs were contributed by <a href="http://tomwildenhain.com">Tom Wildenhain</a>. The mechanic was inspired by <a href="https://benfry.com/fugpaint/">Ben Fry's fugpaint</a>.</div>
+<div id="footer"><div id="colorblind-area"><div id="colorblind-on-button" class="colorblind-button" onclick="turnColorBlindModeOn();"><div class="colorblind-tooltip">Show Color Blind Labels</div></div><div id="colorblind-off-button" class="colorblind-button" onclick="turnColorBlindModeOff();"><div class="colorblind-tooltip">Hide Color Blind Labels</div></div></div>
+<div id="credits">This game was created by Jacqui Fashimpaur in 2020. It first appeared in <a href="https://puzzlehunt.club.cc.cmu.edu/hunt/13/">Puzzle Hunt CMU's S20 hunt</a>.<br>Some code and level designs were contributed by <a href="http://tomwildenhain.com">Tom Wildenhain</a>. The mechanic was inspired by <a href="https://benfry.com/fugpaint/">Ben Fry's fugpaint</a>.</div></div>
 <script src="gameplay.js" defer="defer"></script>

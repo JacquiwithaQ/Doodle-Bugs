@@ -158,11 +158,27 @@ body {
   border-radius: var(--big-roundedness);
 }
 
+#level-color-labels {
+  width: 640px;
+  height: 480px;
+  background-size: 100% 100%;
+  display: block;
+  z-index: 4;
+  position: absolute;
+  border-radius: var(--big-roundedness);
+}
+
+#level-color-labels.hidden {
+  visibility: hidden;
+}
+
 #mainCanvas {
+  width: 640px;
   display: block;
   z-index: 5;
   position: relative;
   border-radius: var(--big-roundedness);
+  /*box-shadow: var(--bg-color) 0px 0px 0px 5px inset;*/
 }
 
 #mainCanvas.canvas-active {
@@ -304,7 +320,7 @@ body {
 
 #small-logo {
   width: 230px;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 
 .tool-tray {
@@ -328,12 +344,16 @@ body {
   background-color: #CCCCCC;
   border-radius: var(--big-roundedness);
   float: right;
+  position: relative;
 }
 
 #current-color-window > img {
+  position: absolute;
   width: 80px;
   height: 80px;
   margin: 10px;
+  left: 0px;
+  top: 0px;
 }
 
 .tool-button-table{
@@ -405,6 +425,25 @@ body {
 
 #purple-button {
   background-color: var(--purple);
+}
+
+.tool-label {
+  color: var(--text-color);
+  width: 45px;
+  text-align: center;
+  font-size: 36px;
+  line-height: 53px;
+  visibility: hidden;
+}
+
+#tools-area.color-blind-mode .tool-label {
+  visibility: visible;
+}
+
+#tool-label-selection {
+  float: left;
+  z-index: 3;
+  margin: 3px;
 }
 
 #undo-button {
@@ -543,6 +582,10 @@ body {
   background-image: url('submit-button.gif');
 }
 
+.active-submit-button:active {
+  background-image: url('submit-button-pending.gif');
+}
+
 .inactive-submit-button {
   background-image: url('submit-button-inactive.png');
 }
@@ -572,13 +615,73 @@ body {
   line-height: 42px;
 }
 
+#footer {
+  margin-top: 24px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.colorblind-button {
+  width: 38px;
+  height: 38px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin: 5px;
+  cursor: pointer;
+  position: relative;
+}
+
+#colorblind-on-button {
+  background-image: url('colorblind-on-button.png');
+}
+
+#colorblind-on-button:hover {
+  background-image: url('colorblind-on-button-hover.png');
+}
+
+#colorblind-on-button.hidden {
+  display: none;
+}
+
+#colorblind-off-button {
+  background-image: url('colorblind-off-button.png');
+}
+
+#colorblind-off-button:hover {
+  background-image: url('colorblind-off-button-hover.png');
+}
+
+#colorblind-off-button.hidden {
+  display: none;
+}
+
+.colorblind-tooltip {
+  width: 140px;
+  bottom: 90%;
+  left: 50%;
+  margin-left: -75px;
+  position: absolute;
+  z-index: 1;
+  color: var(--text-color);
+  font-size: 12px;
+  text-align: right;
+  padding: 5px 0;
+  visibility: hidden;
+}
+
+.colorblind-button:hover .colorblind-tooltip {
+  visibility: visible;
+}
+
 #credits {
   width: 660px;
-  margin: auto;
-  margin-top: 36px;
   font-size: 12px;
   text-align: center;
   color: var(--credits-color);
+  margin-right: 43px;
 }
 
 #credits > a {

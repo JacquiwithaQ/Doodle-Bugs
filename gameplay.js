@@ -17,6 +17,7 @@ var blueColor = "001AC4";
 var purpleColor = "8529B3";
 var brownColor = "664023";
 var blackColor = "000000";
+var colorBlindModeIsOn = false;
 
 function CookieManager() {
 
@@ -57,9 +58,12 @@ function setSvgAttributes(el) {
     el.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
 }
 
-function validateSvg(imgname, callbackFn) {
+function validateSvg(imgname, sensitivityimgname, callbackFn) {
     if (imgname == null) {
         imgname = 'sandbox.png';
+    }
+    if (sensitivityimgname == null) {
+        sensitivityimgname = 'sandbox.png';
     }
     setSvgAttributes(mainCanvas);
     var xml = outerHTML(mainCanvas);
@@ -70,7 +74,7 @@ function validateSvg(imgname, callbackFn) {
         canvas.height = svgimage.height;
         var context = canvas.getContext('2d');
         context.drawImage(svgimage, 0, 0);
-        var svgimgdata = context.getImageData(0, 0, canvas.width, canvas.height);
+        var svgImgdata = context.getImageData(0, 0, canvas.width, canvas.height);
 
         var goalimage = new Image();
         goalimage.src = imgname;
@@ -81,12 +85,23 @@ function validateSvg(imgname, callbackFn) {
             var context2 = canvas2.getContext('2d');
             context2.drawImage(goalimage, 0, 0);
             var goalImgdata = context2.getImageData(0, 0, canvas.width, canvas.height);
-            validateSvgData(svgimgdata, goalImgdata, callbackFn);
+
+            var sensitivityimage = new Image();
+            sensitivityimage.src = sensitivityimgname;
+            sensitivityimage.onload = function() {
+                var canvas3 = document.createElement('canvas');
+                canvas3.width = sensitivityimage.width;
+                canvas3.height = sensitivityimage.height;
+                var context3 = canvas3.getContext('2d');
+                context3.drawImage(sensitivityimage, 0, 0);
+                var sensitivityImgdata = context3.getImageData(0, 0, canvas.width, canvas.height);
+                validateSvgData(svgImgdata, goalImgdata, sensitivityImgdata, callbackFn);
+            }
         }
     }
 }
 
-function validateSvgData(svgimgdata, goalImgdata, callbackFn) {
+function validateSvgData(svgImgdata, goalImgdata, sensitivityImgdata, callbackFn) {
     var colors = ["FFFFFF", pinkColor, redColor, orangeColor, yellowColor, greenColor, tealColor, blueColor, purpleColor, brownColor, blackColor]
     function getPixel(img, x, y) {
         var i = y * img.width * 4 + x * 4;
@@ -98,29 +113,48 @@ function validateSvgData(svgimgdata, goalImgdata, callbackFn) {
     function getPixelSquare(img, x, y, size) {
         var drs = [(-1 * size), 0, size];
         var pixels = [];
-        drs.forEach(function(dx) {
-            drs.forEach(function(dy) {
-                if (0 <= x + dx && x + dx < img.width && 0 <= y + dy && y + dy < img.height) {
+        for (var dx = (-1 * size); dx <= size; dx++) {
+            for (var dy = (-1 * size); dy <= size; dy++) {
+                if (0 <= x + dx && x + dx < img.width && 0 <= y + dy && y + dy < img.height
+                    && Math.floor(Math.sqrt(dx * dx + dy * dy)) <= size) {
                     pixels.push(getPixel(img, x+dx, y+dy));
                 }
-            });
-        });
+            }
+        }
         return pixels;
     }
     function hasError(x, y) {
-        var svgcolor = getPixel(svgimgdata, x, y);
+        var svgcolor = getPixel(svgImgdata, x, y);
         var goalcolor = getPixel(goalImgdata, x, y);
+        var sensitivitycolor = getPixel(sensitivityImgdata, x, y)
+        var testRadius = 4;
+        switch(sensitivitycolor) {
+        case "FFFFFF":
+            // Most Strict
+            testRadius = 1;
+            break;
+        case "777777":
+            // More Generous (just under a stroke weight)
+            testRadius = Math.floor(strokeWeight/2) - 1;
+            break;
+        case "000000":
+            // Extremely Generous, Rare (allows for gaps)
+            testRadius = Math.floor(2*strokeWeight/3);
+            break;
+        default:
+            testRadius = Math.ceil(strokeWeight/4);
+        }
         if (colors.includes(goalcolor) && goalcolor != svgcolor) {
             if (goalcolor == "FFFFFF") {
                 if (colors.includes(svgcolor)) {
-                    return !getPixelSquare(svgimgdata, x, y, 4).includes(goalcolor);
+                    return !getPixelSquare(svgImgdata, x, y, testRadius).includes(goalcolor);
                 }
                 else {
                     return false;
                 }
             }
             else {
-                return !getPixelSquare(svgimgdata, x, y, 6).includes(goalcolor);
+                return !getPixelSquare(svgImgdata, x, y, testRadius).includes(goalcolor);
             }
         }
         return false;
@@ -227,6 +261,25 @@ function clearFeedbackMarks() {
     }
 }
 
+function turnColorBlindModeOn() {
+    document.getElementById('tools-area').classList.add('color-blind-mode');
+    document.getElementById('colorblind-on-button').classList.add('hidden');
+    document.getElementById('colorblind-off-button').classList.remove('hidden');
+    document.getElementById('level-color-labels').classList.remove('hidden');
+    CookieManager.setCookie('color-blind-mode', 'on');
+    colorBlindModeIsOn = true;
+
+}
+
+function turnColorBlindModeOff() {
+    document.getElementById('tools-area').classList.remove('color-blind-mode');
+    document.getElementById('colorblind-off-button').classList.add('hidden');
+    document.getElementById('colorblind-on-button').classList.remove('hidden');
+    document.getElementById('level-color-labels').classList.add('hidden');
+    CookieManager.setCookie('color-blind-mode', 'off');
+    colorBlindModeIsOn = false;
+}
+
 function StateSnapshot(strokes, currentTool) {
     this.strokes = strokes;
     this.currentTool = currentTool;
@@ -274,7 +327,7 @@ function submitDrawing() {
     point = buttonToCanvasPoint(submitButton);
     drawUnliftableIfDown(point.x, point.y);
     moveStickyIfStuck(point.x, point.y);
-    validateSvg(drawingCanvas.level.goalImg, function (errors) {
+    validateSvg(drawingCanvas.level.goalImg, drawingCanvas.level.sensitivityImg, function (errors) {
         if (errors.length == 0){
             CookieManager.setCookie(drawingCanvas.level.name, "complete");
             drawingCanvas.level.button.classList.add("completed-level");
@@ -356,16 +409,21 @@ function onload() {
     strokeCounter = document.getElementById("stroke-counter");
     strokeLabel = document.getElementById("stroke-label");
     currentColorWindow = document.getElementById("current-color-window");
-    pinkTool = new Tool(pinkColor, PushableBrush, document.getElementById("pink-button"));
-    redTool = new Tool(redColor, StickyBrush, document.getElementById("red-button"));
-    orangeTool = new Tool(orangeColor, NoLeftBrush, document.getElementById("orange-button"));
-    yellowTool = new Tool(yellowColor, StartDoubleRotationBrush, document.getElementById("yellow-button"));
-    greenTool = new Tool(greenColor, ErasableBrush, document.getElementById("green-button"));
-    tealTool = new Tool(tealColor, new ColorRotationBrush([tealColor, "FFFFFF"]), document.getElementById("teal-button"));
-    blueTool = new Tool(blueColor, EraserBrush, document.getElementById("blue-button"));
-    purpleTool = new Tool(purpleColor, GravityBrush, document.getElementById("purple-button"));
-    brownTool = new Tool(brownColor, UnliftableBrush, document.getElementById("brown-button"));
-    blackTool = new Tool(blackColor, YMirrorBrush, document.getElementById("black-button"));
+    if (CookieManager.getCookie('color-blind-mode') == "on") {
+        turnColorBlindModeOn();
+    } else {
+        turnColorBlindModeOff();
+    }
+    pinkTool = new Tool(pinkColor, PushableBrush, document.getElementById("pink-button"), "A");
+    redTool = new Tool(redColor, StickyBrush, document.getElementById("red-button"), "B");
+    orangeTool = new Tool(orangeColor, NoLeftBrush, document.getElementById("orange-button"), "C");
+    yellowTool = new Tool(yellowColor, StartDoubleRotationBrush, document.getElementById("yellow-button"), "D");
+    brownTool = new Tool(brownColor, UnliftableBrush, document.getElementById("brown-button"), "E");
+    tealTool = new Tool(tealColor, new ColorRotationBrush([tealColor, "FFFFFF"]), document.getElementById("teal-button"), "F");
+    greenTool = new Tool(greenColor, ErasableBrush, document.getElementById("green-button"), "G");
+    blueTool = new Tool(blueColor, EraserBrush, document.getElementById("blue-button"), "H");
+    purpleTool = new Tool(purpleColor, GravityBrush, document.getElementById("purple-button"), "I");
+    blackTool = new Tool(blackColor, YMirrorBrush, document.getElementById("black-button"), "J");
     sandbox = new Level("sandbox", document.getElementById("sandbox-button"), -1, "sandbox");
     ladybug = new Level("ladybug", document.getElementById("ladybug-level-button"), 7, "ladybug");
     hive = new Level("hive", document.getElementById("hive-level-button"), 2, "hive");
@@ -1321,9 +1379,11 @@ PushableBrush.onNonStrokeMove = function(mouseX, mouseY, currentStroke) {}
 //END BRUSH DEFINTIONS
 
 function Level(imageLabel, button, maxStrokes, name) {
-    this.image = "url(levels/" + imageLabel + "-guide.png)";
+    this.guideImage = "url(levels/" + imageLabel + "-guide.png)";
     this.referenceImg = "url(levels/" + imageLabel + "-reference.png)";
+    this.colorLabelsImg = "url(levels/" + imageLabel + "-color-labels.png)";
     this.goalImg = "levels/" + imageLabel + "-goal.png";
+    this.sensitivityImg = "levels/" + imageLabel + "-sensitivity.png";
     this.button = button;
     this.button.onclick = this.selectLevel.bind(this);
     this.maxStrokes = maxStrokes;
@@ -1337,7 +1397,9 @@ Level.prototype.selectLevel = function() {
     mainCanvas.classList.add('canvas-active');
     drawingCanvas.canvasActive = true;
     background = document.getElementById("level-background");
-    background.style.backgroundImage = this.image;
+    background.style.backgroundImage = this.guideImage;
+    colorLabels = document.getElementById("level-color-labels");
+    colorLabels.style.backgroundImage = this.colorLabelsImg;
     reference = document.getElementById("reference-image");
     reference.style.backgroundImage = this.referenceImg;
     instruction = document.getElementById("instruction-text");
@@ -1405,12 +1467,13 @@ Stroke.prototype.copy = function() {
     return s;
 }
 
-function Tool(color, brush, button) {
+function Tool(color, brush, button, letterID) {
     this.color = "#" + color;
     this.brush = brush;
     this.button = button;
     this.button.onclick = this.selectTool.bind(this);
     this.usageCnt = 0;
+    this.letterID = letterID;
     this.usagePattern = "";
 }
 Tool.prototype.selectTool = function() {
@@ -1419,6 +1482,7 @@ Tool.prototype.selectTool = function() {
     // We don't do sticky here because it's jarring and you can't use it to cheat
     drawingCanvas.currentTool = this;
     currentColorWindow.style.backgroundColor = this.color;
+    document.getElementById("tool-label-selection").innerHTML = this.letterID;
     clearFeedbackMarks();
 }
 
