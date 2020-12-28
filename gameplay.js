@@ -434,12 +434,13 @@ function onload() {
     worm = new Level("worm", document.getElementById("worm-level-button"), 3, "worm");
     sky = new Level("sky", document.getElementById("sky-level-button"), 4, "sky");
     spider = new Level("spider", document.getElementById("spider-level-button"), 2, "spider");
+    music = new Level("music", document.getElementById("music-level-button"), 4, "music");
     fish = new Level("fish", document.getElementById("fish-level-button"), 5, "fish");
     umbrella = new Level("umbrella", document.getElementById("umbrella-level-button"), 3, "umbrella");
     boat = new Level("boat", document.getElementById("boat-level-button"), 3, "boat");
     house = new Level("house", document.getElementById("house-level-button"), 6, "house");
     space = new Level("space", document.getElementById("space-level-button"), 7, "space");
-    judgedLevels = [ladybug, hive, flower, hummingbird, dragonfly, butterfly, worm, spider, sky, fish, umbrella, house, boat, space];
+    judgedLevels = [ladybug, hive, flower, hummingbird, dragonfly, butterfly, worm, spider, sky, music, fish, umbrella, house, boat, space];
     submitButton = document.getElementById("submit-button");
     mainToolbar = new Toolbar([pinkTool, redTool, orangeTool, yellowTool, greenTool, tealTool, blueTool, purpleTool, brownTool, blackTool]);
     drawingCanvas = new DrawingCanvas();
