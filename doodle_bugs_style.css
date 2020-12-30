@@ -90,7 +90,7 @@ body {
 }
 
 #start-game-button{
-  background-image: url('start-button.png');
+  background-image: url('buttons/start-button.png');
   background-size: contain;
   background-repeat: no-repeat;
   margin: 20px 5px 30px 5px;
@@ -100,7 +100,7 @@ body {
 }
 
 #start-game-button:hover {
-  background-image: url('start-button.gif');
+  background-image: url('buttons/start-button.gif');
 }
 
 #game-area {
@@ -277,7 +277,7 @@ body {
 }
 
 #popup-next-button {
-  background-image: url('next-level-button.png');
+  background-image: url('buttons/next-level-button.png');
   background-size: contain;
   background-repeat: no-repeat;
   cursor: pointer;
@@ -289,11 +289,11 @@ body {
 }
 
 #popup-next-button:hover {
-  background-image: url('next-level-button.gif');
+  background-image: url('buttons/next-level-button.gif');
 }
 
 #popup-sandbox-button {
-  background-image: url('sandbox-button.png');
+  background-image: url('buttons/sandbox-button.png');
   background-size: contain;
   background-repeat: no-repeat;
   cursor: pointer;
@@ -305,7 +305,7 @@ body {
 }
 
 #popup-sandbox-button:hover {
-  background-image: url('sandbox-button.gif');
+  background-image: url('buttons/sandbox-button.gif');
 }
 
 #popup-mobile-device-button {
@@ -320,7 +320,6 @@ body {
 
 #small-logo {
   width: 230px;
-  margin-bottom: 5px;
 }
 
 .tool-tray {
@@ -574,20 +573,20 @@ body {
 }
 
 .active-submit-button {
-  background-image: url('submit-button.png');
+  background-image: url('buttons/submit-button.png');
   cursor: pointer;
 }
 
 .active-submit-button:hover {
-  background-image: url('submit-button.gif');
+  background-image: url('buttons/submit-button.gif');
 }
 
 .active-submit-button:active {
-  background-image: url('submit-button-pending.gif');
+  background-image: url('buttons/submit-button-pending.gif');
 }
 
 .inactive-submit-button {
-  background-image: url('submit-button-inactive.png');
+  background-image: url('buttons/submit-button-inactive.png');
 }
 
 #instruction-text {
@@ -624,22 +623,25 @@ body {
   align-items: center;
 }
 
+#colorblind-area {
+  width: 230px;
+  margin-bottom: 5px;
+}
+
 .colorblind-button {
-  width: 38px;
-  height: 38px;
+  width: 230px;
+  height: 46px;
   background-size: contain;
   background-repeat: no-repeat;
-  margin: 5px;
   cursor: pointer;
-  position: relative;
 }
 
 #colorblind-on-button {
-  background-image: url('colorblind-on-button.png');
+  background-image: url('buttons/colorblind-on-button.png');
 }
 
 #colorblind-on-button:hover {
-  background-image: url('colorblind-on-button-hover.png');
+  background-image: url('buttons/colorblind-on-button-hover.png');
 }
 
 #colorblind-on-button.hidden {
@@ -647,18 +649,18 @@ body {
 }
 
 #colorblind-off-button {
-  background-image: url('colorblind-off-button.png');
+  background-image: url('buttons/colorblind-off-button.png');
 }
 
 #colorblind-off-button:hover {
-  background-image: url('colorblind-off-button-hover.png');
+  background-image: url('buttons/colorblind-off-button-hover.png');
 }
 
 #colorblind-off-button.hidden {
   display: none;
 }
 
-.colorblind-tooltip {
+/* .colorblind-tooltip {
   width: 140px;
   bottom: 90%;
   left: 50%;
@@ -674,14 +676,13 @@ body {
 
 .colorblind-button:hover .colorblind-tooltip {
   visibility: visible;
-}
+} */
 
 #credits {
   width: 660px;
   font-size: 12px;
   text-align: center;
   color: var(--credits-color);
-  margin-right: 43px;
 }
 
 #credits > a {

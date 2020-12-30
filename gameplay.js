@@ -440,7 +440,7 @@ function onload() {
     boat = new Level("boat", document.getElementById("boat-level-button"), 3, "boat");
     house = new Level("house", document.getElementById("house-level-button"), 6, "house");
     space = new Level("space", document.getElementById("space-level-button"), 7, "space");
-    judgedLevels = [ladybug, hive, flower, hummingbird, dragonfly, butterfly, worm, spider, sky, music, fish, umbrella, house, boat, space];
+    judgedLevels = [ladybug, hive, flower, hummingbird, dragonfly, butterfly, worm, spider, sky, umbrella, fish, music, boat, house, space];
     submitButton = document.getElementById("submit-button");
     mainToolbar = new Toolbar([pinkTool, redTool, orangeTool, yellowTool, greenTool, tealTool, blueTool, purpleTool, brownTool, blackTool]);
     drawingCanvas = new DrawingCanvas();
