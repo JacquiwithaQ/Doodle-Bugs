@@ -708,3 +708,8 @@ body {
   color: var(--credits-link-color);
   text-decoration: underline;
 }
+
+body:after{
+ display:none;
+ content: url(buttons/start-button.gif) url(buttons/submit-button.gif) url(buttons/next-level-button.gif) url(buttons/colorblind-on-button-hover.png) url(buttons/sandbox-button.gif);
+}
