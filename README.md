@@ -23,7 +23,7 @@ Doodle Bugs is a web-based puzzle game, playable at www.doodlebugs.art. The cent
 - Black strokes are reflected vertically across the canvas' center line from the cursor.
 
 ## Credits
-Doodle Bugs was primarily developed and is maintained by [Jacqui Fashimpaur](https://www.jacquifashimpaur.com). An early version of it appeared in [Puzzlehunt CMU's Spring 2020 Hunt](https://puzzlehunt.club.cc.cmu.edu/hunt/14/) under the name ["Stroke of Genius."](https://puzzlehunt.club.cc.cmu.edu/puzzle/11011/) This puzzle was co-written by Jacqui Fashimpaur and [Tom Wildenhain](https://tomwildenhain.com). The mechanic was inspired by [Ben Fry's fugpaint](https://benfry.com/fugpaint/).
+Doodle Bugs was primarily developed and is maintained by [Jacqui Fashimpaur](https://www.jacquifashimpaur.com). An early version of it appeared in [Puzzlehunt CMU's Spring 2020 Hunt](https://puzzlehunt.club.cc.cmu.edu/hunt/14/) under the name ["Stroke of Genius."](https://puzzlehunt.club.cc.cmu.edu/puzzle/11011/) This puzzle was co-written by Jacqui Fashimpaur and [Tom Wildenhain](http://tomwildenhain.com). The mechanic was inspired by [Ben Fry's fugpaint](https://benfry.com/fugpaint/).
 
 ## Disclaimer
 I am providing the code in this repository under an open source license. Because this is my personal repository, the license you receive to my code is from me and not my employer (Facebook).
