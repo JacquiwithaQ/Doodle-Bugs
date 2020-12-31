@@ -483,6 +483,15 @@ body {
   background-image: url('clear_hover.png');
 }
 
+#clear-button.inactive {
+  opacity: 0.5;
+  cursor: auto;
+}
+
+#clear-button.inactive:hover {
+  background-image: url('clear.png');
+}
+
 .header-text {
   color: var(--text-color);
   font-size: 42px;
@@ -689,7 +698,7 @@ body {
 } */
 
 #credits {
-  width: 660px;
+  width: 680px;
   font-size: 12px;
   text-align: center;
   color: var(--credits-color);
