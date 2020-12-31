@@ -240,13 +240,14 @@ function selectSandbox() {
 function clearCanvas() {
     if (!drawingCanvas.canvasActive) return;
     clearFeedbackMarks();
+    if (drawingCanvas.strokes.length == 0) return;
+    undoManager.pushCurrent();
     drawingCanvas.strokes.forEach(function(stroke) {
         stroke.remove();
     });
     drawingCanvas.strokes = [];
     drawingCanvas.currentlyDrawing = false;
     drawingCanvas.showingFeedback = false;
-    undoManager.clear();
     mainToolbar.tools.forEach(function(tool) {
         tool.usageCnt = 0;
         tool.usagePattern = "";
@@ -375,11 +376,15 @@ UndoManager.prototype.pushCurrent = function() {
     })
     s = new StateSnapshot(strokesCopy, drawingCanvas.currentTool);
     this.snapshots.push(s);
+    if (this.snapshots.length > 20) {
+        this.snapshots.shift();
+    }
+    document.getElementById('undo-button').classList.remove("inactive");
 }
 UndoManager.prototype.undo = function() {
     if (!drawingCanvas.canvasActive) return;
-    clearFeedbackMarks();
     if (this.snapshots.length == 0) return;
+    clearFeedbackMarks();
     s = this.snapshots.pop();
     drawingCanvas.strokes.forEach(function(s) {
         s.remove();
@@ -397,9 +402,13 @@ UndoManager.prototype.undo = function() {
     drawUnliftableIfDown(point.x, point.y);
     moveStickyIfStuck(point.x, point.y);
     updateCounter();
+    if (this.snapshots.length == 0) {
+        document.getElementById('undo-button').classList.add("inactive");
+    }
 }
 UndoManager.prototype.clear = function() {
     this.snapshots = [];
+    document.getElementById('undo-button').classList.add("inactive");
 }
 var undoManager = new UndoManager();
 
@@ -438,7 +447,7 @@ function onload() {
     fish = new Level("fish", document.getElementById("fish-level-button"), 5, "fish");
     umbrella = new Level("umbrella", document.getElementById("umbrella-level-button"), 3, "umbrella");
     boat = new Level("boat", document.getElementById("boat-level-button"), 3, "boat");
-    house = new Level("house", document.getElementById("house-level-button"), 6, "house");
+    house = new Level("house", document.getElementById("house-level-button"), 4, "house");
     space = new Level("space", document.getElementById("space-level-button"), 7, "space");
     judgedLevels = [ladybug, hive, flower, hummingbird, dragonfly, butterfly, worm, spider, sky, umbrella, fish, music, boat, house, space];
     submitButton = document.getElementById("submit-button");
@@ -1420,6 +1429,7 @@ Level.prototype.selectLevel = function() {
     drawingCanvas.level = this;
     updateCounter();
     clearCanvas();
+    undoManager.clear();
     this.button.scrollIntoView({behavior: "smooth", block: "nearest"});
 }
 

@@ -453,10 +453,20 @@ body {
   height: 105px;
   width: 105px;
   margin-left: 13px;
+  opacity: 1;
 }
 
 #undo-button:hover {
   background-image: url('undo_hover.png');
+}
+
+#undo-button.inactive {
+  opacity: 0.5;
+  cursor: auto;
+}
+
+#undo-button.inactive:hover {
+  background-image: url('undo.png');
 }
 
 #clear-button {
