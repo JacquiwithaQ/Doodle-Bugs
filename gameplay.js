@@ -27,7 +27,7 @@ CookieManager.setCookie = function(cname, cvalue) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     var expires = "expires="+ d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    document.cookie = cname + "=" + cvalue + ";SameSite=Lax;Secure;" + expires + ";path=/";
 };
 CookieManager.getCookie = function(cname) {
     var name = cname + "=";
@@ -84,7 +84,7 @@ function validateSvg(imgname, sensitivityimgname, callbackFn) {
             canvas2.height = goalimage.height;
             var context2 = canvas2.getContext('2d');
             context2.drawImage(goalimage, 0, 0);
-            var goalImgdata = context2.getImageData(0, 0, canvas.width, canvas.height);
+            var goalImgdata = context2.getImageData(0, 0, canvas2.width, canvas2.height);
 
             var sensitivityimage = new Image();
             sensitivityimage.src = sensitivityimgname;
@@ -94,7 +94,7 @@ function validateSvg(imgname, sensitivityimgname, callbackFn) {
                 canvas3.height = sensitivityimage.height;
                 var context3 = canvas3.getContext('2d');
                 context3.drawImage(sensitivityimage, 0, 0);
-                var sensitivityImgdata = context3.getImageData(0, 0, canvas.width, canvas.height);
+                var sensitivityImgdata = context3.getImageData(0, 0, canvas3.width, canvas3.height);
                 validateSvgData(svgImgdata, goalImgdata, sensitivityImgdata, callbackFn);
             }
         }
@@ -126,7 +126,7 @@ function validateSvgData(svgImgdata, goalImgdata, sensitivityImgdata, callbackFn
     function hasError(x, y) {
         var svgcolor = getPixel(svgImgdata, x, y);
         var goalcolor = getPixel(goalImgdata, x, y);
-        var sensitivitycolor = getPixel(sensitivityImgdata, x, y)
+        var sensitivitycolor = getPixel(sensitivityImgdata, x, y);
         var testRadius = 4;
         switch(sensitivitycolor) {
         case "FFFFFF":
